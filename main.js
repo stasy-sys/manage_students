@@ -54,11 +54,13 @@ function calculateRandomNumber(min, max) {
 
 
 function generateStudents(NamesList, gender) {
+  const age = {"min": 17, "max": 60};
+  const score = {"min": 0, "max": 10};
   let students = [];
   for (let i = 0; i < NamesList.length; i ++ ) {
     students[i] = {
-      age: calculateRandomNumber(18, 50),
-      examScores: [calculateRandomNumber(0, 10)],
+      age: calculateRandomNumber(age.min, age.max),
+      examScores: [calculateRandomNumber(score.min, score.max)],
       gender: gender,
       name: NamesList[i].toLowerCase()
     }
