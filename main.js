@@ -7,7 +7,7 @@
 import readline from 'readline';
 
 
-const students = [{
+let students = [{
     age: 32,
     examScores: [],
     gender: 'male',
@@ -33,17 +33,65 @@ const rl = readline.createInterface({
 function getUserNumber() {
 return new Promise((resolve, reject) => {
     rl.question(
-        'Introduze el numero asignado a la opcion de lista abajo (Pulsa 0 para salir):\n' +
+        'Introduze el numero asignado a la opcion de la lista abajo (Pulsa 0 para salir):\n' +
         '________________________________________________\n' +
         '1- Mostrar en formato de tabla todos los alumnos.\n' +
-        '2- Mostrar por consola la cantidad de alumnos que hay en clase.\n', function(num) {
+        '2- Mostrar por consola la cantidad de alumnos que hay en clase.\n' +
+        '3- Mostrar por consola todos los nombres de los alumnos.\n', function(num) {
     rl.pause();
     const parsedNumber = parseInt(num)
     resolve(parsedNumber);
+    rl.close();
     })
 });
 }
 
-let num = await getUserNumber();
-rl.close();
 
+function calculateRandomNumber(min, max) {
+  const randomNumber = Math.floor(Math.random() * (max - min)) + min;
+  return randomNumber;
+}
+
+
+function generateStudents(NamesList, gender) {
+  let students = [];
+  for (let i = 0; i < NamesList.length; i ++ ) {
+    students[i] = {
+      age: calculateRandomNumber(18, 50),
+      examScores: [calculateRandomNumber(0, 10)],
+      gender: gender,
+      name: NamesList[i].toLowerCase()
+    }
+  }
+  return students
+
+}
+
+
+function getStudents(studentsList) {
+  console.table(studentsList);
+}
+
+function TotalStudents(studentsList){
+  console.log("Total students: " + studentsList.length);
+}
+
+function getStudentsNames(studentsList) {
+  console.log("STUDENTS: ")
+  const names = studentsList.map(x => console.log(x.name));
+}
+
+
+//Automatically generate a new list of students
+let students2 = generateStudents(availableFemaleNames, availableGenders[1]);
+let student3 = generateStudents(availableMaleNames, availableGenders[0])
+let studentsList = students2.concat(student3)
+
+
+let num = await getUserNumber();
+
+getStudents(studentsList);
+
+TotalStudents(studentsList);
+
+getStudentsNames(studentsList);
