@@ -33,15 +33,17 @@ const rl = readline.createInterface({
 function getUserNumber() {
 return new Promise((resolve, reject) => {
     rl.question(
-        'Introduze el numero asignado a la opcion de la lista abajo (Pulsa 0 para salir):\n' +
-        '________________________________________________\n' +
-        '1- Mostrar en formato de tabla todos los alumnos.\n' +
-        '2- Mostrar por consola la cantidad de alumnos que hay en clase.\n' +
-        '3- Mostrar por consola todos los nombres de los alumnos.\n', function(num) {
+      '\n\n\n------------------------------------------------\n' +
+      'OPTIONS\n' +
+      '1- Mostrar en formato de tabla todos los alumnos.\n' +
+      '2- Mostrar por consola la cantidad de alumnos que hay en clase.\n' +
+      '3- Mostrar por consola todos los nombres de los alumnos.\n' +
+      '4- Eliminar el último alumno de la clase.\n' +
+      '------------------------------------------------\n' +
+      'Introduze el numero asignado a la opcion de la lista abajo (Pulsa 0 para salir): ', function(num) {
     rl.pause();
     const parsedNumber = parseInt(num)
     resolve(parsedNumber);
-    rl.close();
     })
 });
 }
@@ -74,26 +76,57 @@ function getStudents(studentsList) {
   console.table(studentsList);
 }
 
+
 function TotalStudents(studentsList){
-  console.log("Total students: " + studentsList.length);
+  console.log("TOTAL ESTUDIANTES: " + studentsList.length);
 }
+
 
 function getStudentsNames(studentsList) {
-  console.log("STUDENTS: ")
-  const names = studentsList.map(x => console.log(x.name));
+  studentsList.map(x => console.log(x.name));
 }
 
+
+function RemoveLast(studentsList) {
+  studentsList.pop();
+  console.log("ELIMITADO")
+}
+
+function RemoveRandom(studentsList) {
+  studentsList.splice(calculateRandomNumber(0, studentsList.length - 1), 1);
+}
 
 //Automatically generate a new list of students
 let students2 = generateStudents(availableFemaleNames, availableGenders[1]);
-let student3 = generateStudents(availableMaleNames, availableGenders[0])
-let studentsList = students2.concat(student3)
+let student3 = generateStudents(availableMaleNames, availableGenders[0]);
+let studentsList = students2.concat(student3);
 
 
-let num = await getUserNumber();
+async function manageStudents() {
+  let num; 
+  do{
+    num = await getUserNumber();
+    console.log()
+    switch(num) {
+      case 1:
+        getStudents(studentsList);
+        break;
+      case 2:
+        TotalStudents(studentsList);
+        break;
+      case 3:
+        getStudentsNames(studentsList);
+        break;
+      case 4:
+        RemoveLast(studentsList);
+        break;
+      case 5:
+        RemoveRandom(studentsList);
+        break;
+    }
+  } while (num >= 1 && num <= 18);
+  rl.close();
+}
 
-getStudents(studentsList);
 
-TotalStudents(studentsList);
-
-getStudentsNames(studentsList);
+manageStudents()
