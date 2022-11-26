@@ -5,6 +5,9 @@
 */
 
 import readline from 'readline';
+import { sayHi } from './test';
+
+sayHi()
 
 const availableMaleNames = ['pepe', 'juan', 'victor', 'leo', 'francisco', 'carlos'];
 const availableFemaleNames = ['cecilia', 'ana', 'luisa', 'silvia', 'isabel', 'virginia'];
